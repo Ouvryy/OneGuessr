@@ -1,87 +1,111 @@
 import React from 'react';
-import { Box, Button, Typography, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+// 1. Import du hook Sound
+import { useSound } from '../context/SoundContext';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  
+  // 2. On récupère la fonction playSound
+  const { playSound } = useSound();
+
+  const translations = {
+    fr: {
+      title: "OneGuessr",
+      play: "JOUER",
+      hardMode: "MODE DIFFICILE",
+      stats: "Statistiques",
+      settings: "Paramètres"
+    },
+    en: {
+      title: "OneGuessr",
+      play: "PLAY",
+      hardMode: "HARD MODE PLAY",
+      stats: "Statistics",
+      settings: "Settings"
+    }
+  };
+
+  const t = translations[language];
+
+  // --- GESTION DES SONS ---
+  
+  // Son au survol (zipclick)
+  const handleHover = () => {
+    // Volume à 0.4 pour que le zip ne soit pas trop agressif
+    playSound('/sounds/sound_effect/zipclick.mp3', 0.4);
+  };
+
+  // Son au clic + Navigation
+  const handleNavigation = (path) => {
+    playSound('/sounds/sound_effect/button-click-289742.mp3');
+    navigate(path);
+  };
+
+  const buttonClass = `
+    py-3 px-6 rounded-lg shadow-lg font-bold 
+    border-2 transition-all duration-300
+    uppercase tracking-wider
+    hover:scale-105
+    bg-btnLight border-btnLight text-white
+    hover:bg-transparent hover:text-btnLight
+    dark:bg-btnDark dark:border-btnDark dark:text-black
+    dark:hover:bg-transparent dark:hover:text-btnDark
+  `;
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        bgcolor: 'black',
-        color: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        pb: 10, 
-        px: 2,
-      }}
-    >
+    <div className="min-h-screen bg-white dark:bg-bgDark text-black dark:text-white flex flex-col items-center justify-center text-center pb-24 px-4 transition-colors duration-300">
+
+      {/* Les boutons Toggle sont gérés dans App.js */}
+
       <img
         src="/images/Luffy.jpg"
         alt="Luffy"
-        style={{
-            width: 160,
-            height: 160,
-            objectFit: 'cover',        
-            borderRadius: '50%',
-            marginBottom: 24,
-            border: '4px solid #CC213B',
-        }}
-    />
+        className="w-40 h-40 object-cover rounded-full mb-6 border-4
+                   border-btnLight dark:border-btnDark"
+      />
 
-      <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#E6B96F', mb: 4 }}>
-        OneGuessr
-      </Typography>
+      <h1 className="text-5xl font-bold mb-12 text-btnLight dark:text-btnDark">
+        {t.title}
+      </h1>
 
-      <Stack spacing={3} sx={{ width: '100%', maxWidth: 300 }}>
-        <Button
-          variant="contained"
-          onClick={() => navigate('/game')}
-          sx={{
-            bgcolor: '#CC213B',
-            color: 'white',
-            fontWeight: 'bold',
-            '&:hover': {
-              bgcolor: '#a2182e',
-            },
-          }}
+      <div className="flex flex-col gap-4 w-full max-w-xs">
+
+        <button
+          onMouseEnter={handleHover}           // Son Survol
+          onClick={() => handleNavigation('/game')} // Son Clic + Navigation
+          className={buttonClass}
         >
-          PLAY
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => navigate('/stats')}
-          sx={{
-            bgcolor: '#CC213B',
-            color: 'white',
-            fontWeight: 'bold',
-            '&:hover': {
-              bgcolor: '#a2182e',
-            },
-          }}
+          {t.play}
+        </button>
+
+        <button
+          onMouseEnter={handleHover}
+          onClick={() => handleNavigation('/hard-game')}
+          className={buttonClass}
         >
-          Statistics
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => navigate('/settings')}
-          sx={{
-            bgcolor: '#CC213B',
-            color: 'white',
-            fontWeight: 'bold',
-            '&:hover': {
-              bgcolor: '#a2182e',
-            },
-          }}
+          {t.hardMode}
+        </button>
+
+        <button
+          onMouseEnter={handleHover}
+          onClick={() => handleNavigation('/stats')}
+          className={buttonClass}
         >
-          Settings
-        </Button>
-      </Stack>
-      
-    </Box>
+          {t.stats}
+        </button>
+
+        <button
+          onMouseEnter={handleHover}
+          onClick={() => handleNavigation('/settings')}
+          className={buttonClass}
+        >
+          {t.settings}
+        </button>
+
+      </div>
+    </div>
   );
 }
