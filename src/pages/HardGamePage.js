@@ -18,7 +18,6 @@ const ARC_LOCATIONS = [
   { from: 1126, to: 1144, location: 'Erbaf' }
 ];
 
-// --- ANIMATION COMPONENTS (Identiques à GamePage) ---
 
 const BuggyWinAnimation = ({ streakCount, onClose, t }) => {
   const [frame, setFrame] = useState(0);
@@ -145,7 +144,7 @@ const LuffyWinAnimation = ({ streakCount, onClose, t }) => {
   );
 };
 
-// --- LOADER ---
+
 const LuffyLoader = () => {
   const { isDark } = useTheme();
   const redSprites = [
@@ -195,7 +194,7 @@ function HardGamePage() {
   const [correctAnswer, setCorrectAnswer] = useState(0);
   const [userInput, setUserInput] = useState('');
   
-  // Résultat dynamique
+  
   const [resultState, setResultState] = useState(null); 
 
   const [dataset, setDataset] = useState([]);
@@ -217,7 +216,7 @@ function HardGamePage() {
   const [imageQueue, setImageQueue] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // --- STREAK STATES ---
+  
   const [streak, setStreak] = useState(0); 
   const [showStreakAnim, setShowStreakAnim] = useState(false);
 
@@ -250,7 +249,7 @@ function HardGamePage() {
       perfect: "PARFAIT ! C'était exactement le chapitre",
       points: "points",
       closeGuess: "Proche",
-      // Animations Streak
+     
       winstreak: "SÉRIE",
       zoroStreak: "SÉRIE ZORO",
       yonkoStreak: "SÉRIE YONKO",
@@ -285,7 +284,7 @@ function HardGamePage() {
       perfect: "PERFECT! It was exactly chapter",
       points: "points",
       closeGuess: "Close",
-      // Streak
+     
       winstreak: "WINSTREAK",
       zoroStreak: "ZORO STREAK",
       yonkoStreak: "YONKO STREAK",
@@ -299,7 +298,7 @@ function HardGamePage() {
 
   const t = translations[language];
 
-  // --- STYLES ---
+
   const iconButtonStyle = `
     w-10 h-10 flex items-center justify-center
     rounded-lg shadow-md border-2 
@@ -458,7 +457,7 @@ function HardGamePage() {
     localStorage.setItem("answerHistoryHard", JSON.stringify(history));
 
     if (points === -1) {
-      // PERDU -> Reset streak
+      
       setStreak(0);
       const newErrorCount = errorCount + 1;
       setErrorCount(newErrorCount);
@@ -481,7 +480,7 @@ function HardGamePage() {
         return;
       }
     } else {
-      // GAGNÉ (Points > 0) -> Streak +1
+      
       setScore(prev => {
         const newScore = prev + points;
         if (newScore > bestScore) {
@@ -491,16 +490,16 @@ function HardGamePage() {
         return newScore;
       });
 
-      // Gestion Streak
+      
       setStreak(prevStreak => {
         const newStreak = prevStreak + 1;
-        // Palier de 5 : Animation + Son Brook
+        
         if (newStreak > 0 && newStreak % 5 === 0) {
           playSound('/sounds/sound_effect/Brook,s laugh !!! Yo ho ho ho ho ho !!!.mp3'); 
           setShowStreakAnim(true);
           setTimeout(() => setShowStreakAnim(false), 4000);
         } else {
-          // Si pas de streak, on joue le son normal
+          
           if (difference === 0) {
             playSound('/sounds/sound_effect/cowabunga-voiced-165997.mp3');
             triggerWinConfetti();

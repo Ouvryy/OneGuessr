@@ -53,7 +53,7 @@ export default function StatsPage() {
 
   const t = translations[language];
 
-  // --- STYLES (Identique aux pages de jeu) ---
+
   const iconButtonStyle = `
     w-10 h-10 flex items-center justify-center
     rounded-lg shadow-md border-2 
@@ -88,11 +88,10 @@ export default function StatsPage() {
   };
 
   useEffect(() => {
-    // --- CALCULS CLASSIC ---
+
     const classicHistory = JSON.parse(localStorage.getItem('answerHistory') || '[]');
     const bestScoreClassic = parseInt(localStorage.getItem("bestScore")) || 0;
     
-    // --- CALCULS HARD ---
     const hardHistory = JSON.parse(localStorage.getItem('answerHistoryHard') || '[]');
     const bestScoreHard = parseInt(localStorage.getItem("bestScoreHard")) || 0;
 
@@ -164,7 +163,6 @@ export default function StatsPage() {
     setHardStats(hStats);
   }, []);
 
-  // --- FONCTION RESET ---
   const handleReset = () => {
     if (window.confirm(t.resetConfirm)) {
         playSound('/sounds/sound_effect/button-click-289742.mp3');

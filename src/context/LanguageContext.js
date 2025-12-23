@@ -11,7 +11,6 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }) => {
-  // On vérifie si une langue est déjà sauvegardée, sinon on met 'fr' par défaut
   const [language, setLanguage] = useState(() => {
     const saved = localStorage.getItem('appLanguage');
     return saved || 'fr'; 

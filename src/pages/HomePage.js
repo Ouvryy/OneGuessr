@@ -1,14 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-// 1. Import du hook Sound
 import { useSound } from '../context/SoundContext';
 
 export default function HomePage() {
   const navigate = useNavigate();
   const { language } = useLanguage();
   
-  // 2. On récupère la fonction playSound
   const { playSound } = useSound();
 
   const translations = {
@@ -30,15 +28,12 @@ export default function HomePage() {
 
   const t = translations[language];
 
-  // --- GESTION DES SONS ---
-  
-  // Son au survol (zipclick)
+
   const handleHover = () => {
-    // Volume à 0.4 pour que le zip ne soit pas trop agressif
     playSound('/sounds/sound_effect/zipclick.mp3', 0.4);
   };
 
-  // Son au clic + Navigation
+ 
   const handleNavigation = (path) => {
     playSound('/sounds/sound_effect/button-click-289742.mp3');
     navigate(path);
@@ -74,8 +69,8 @@ export default function HomePage() {
       <div className="flex flex-col gap-4 w-full max-w-xs">
 
         <button
-          onMouseEnter={handleHover}           // Son Survol
-          onClick={() => handleNavigation('/game')} // Son Clic + Navigation
+          onMouseEnter={handleHover}           
+          onClick={() => handleNavigation('/game')} 
           className={buttonClass}
         >
           {t.play}

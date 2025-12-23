@@ -17,7 +17,6 @@ const ARC_LOCATIONS = [
   { from: 1126, to: 1144, location: 'Erbaf' }
 ];
 
-// --- ANIMATIONS ---
 
 const BuggyWinAnimation = ({ streakCount, onClose, t }) => {
   const [frame, setFrame] = useState(0);
@@ -235,14 +234,13 @@ function GamePage() {
 
   const t = translations[language];
 
-  // --- STATE ---
   const [dataset, setDataset] = useState([]);
   const [gameQueue, setGameQueue] = useState([]); 
   const [isInitializing, setIsInitializing] = useState(true);
   const [currentRound, setCurrentRound] = useState(null);
   
-  // Utilisation d'un objet pour le résultat afin de gérer la traduction dynamiquement
-  const [resultState, setResultState] = useState(null); // { type: 'WIN' | 'LOSE' | 'TIMEOUT' | 'GAMEOVER', payload: ... }
+ 
+  const [resultState, setResultState] = useState(null); 
   
   const [timer, setTimer] = useState(10);
   const [gameOver, setGameOver] = useState(false);
@@ -495,7 +493,7 @@ function GamePage() {
     errorCount < 3 && "/images/Mugiwara.png"
   ];
 
-  // Helper pour obtenir le texte affiché selon la langue
+  
   const getResultMessage = () => {
     if (!resultState) return '';
     switch (resultState.type) {
